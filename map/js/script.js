@@ -1,7 +1,7 @@
 var map,
     restaurants = [],
     google_restaurants = [],
-    current_loc,
+    curr_location,
     marker,
     markersArray = {},
     circle,
@@ -12,7 +12,7 @@ var map,
     total_sales = 0;
 
 function initMap() {
-    var location = { lat: 14.60, lng: 120.98 }; // manila
+    var location = { lat: 10.19, lng: 123.59 }; // cebu
 
     // map
     map = new google.maps.Map(document.getElementById('map'), {
@@ -20,18 +20,23 @@ function initMap() {
         zoom: 11
     });
 
-    getCurrentLocation(); // get user location
+    getCurrentLocation(); // get current location cebu city
 
     // get restaurants from json file
     $.getJSON('restaurants.json', function(data) {
-        restaurants = data.results; // assign results to global variable
+
+        restaurants = data.restaurants; // assign results to global variable
+        restaurants.push(restaurants);
+
     });
 
     getRestaurants(); // get restaurants from google
 
     renderCircle(); // render circle
 
-    // select other restaurant types
+
+
+    // // select other restaurant types
     $('#types').on('change', function() {
         clearOverlays();
         eachRestaurants();
@@ -39,7 +44,7 @@ function initMap() {
         renderTotals();
     });
 
-    // init directions renderer
+    // // init directions renderer
     directionsDisplay = new google.maps.DirectionsRenderer({
         map: map
     });
@@ -47,33 +52,28 @@ function initMap() {
 
 // get user's current location
 function getCurrentLocation() {
-    current_loc = new google.maps.LatLng(14.5123, 121.0165); // NAIA
+    curr_location = new google.maps.LatLng(10.37, 123.70); // NAIA
 
-    // mark NAIA location
+    // mark
     navig_marker = new google.maps.Marker({
         map: map,
-        position: current_loc,
-    });
-
-    // add hover listener on marker
-    google.maps.event.addListener(navig_marker, 'click', function() {
-        infowindow.setContent('<div><strong>My location</strong><br>Ninoy Aquino International Airport</div>');
-        infowindow.open(map, this);
+        position: curr_location,
     });
 }
 
 // go through each restaurants
 function getPlaces() {
     var type = document.getElementById("types").value;
-
+    console.log(type);
+    console.log(restaurants);
     $.each(restaurants, function(i, v) {
         if (type != '') { // a restaurant type is selected
             if (type == v.types) { // filter restaurants based on type
-                createMarker(v);
+                setMarkers(v);
                 total_restaurants++;
             }
         } else { // all restaurant types selected
-            createMarker(v);
+            setMarkers(v);
             total_restaurants++;
         }
     });
@@ -82,7 +82,7 @@ function getPlaces() {
     if (circle) {
         var circle_pos = new google.maps.LatLng(circle.getCenter().lat(), circle.getCenter().lng());
         total_restaurants = 0, total_customers = 0, total_sales = 0; // reset counters
-        document.getElementById('restaurants_list').innerHTML = ''; // clear restaurants list
+        //document.getElementById('restaurants_list').innerHTML = ''; // clear restaurants list
 
         $.each(markersArray, function(i, v) {
             if (google.maps.geometry.spherical.computeDistanceBetween(v.getPosition(), circle_pos) < circle.getRadius()) {
@@ -92,7 +92,17 @@ function getPlaces() {
         });
     }
 
-    renderTotals();
+    //renderTotals();
+}
+
+function setMarkers(v) {
+    console.log(v);
+    var markersLocation = {lat: v.lat, lng: v.lng};
+    var marker = new google.maps.Marker({
+        position: markersLocation,
+        map: map,
+        title: v.details.title
+      });
 }
 
 // go through each restaurants from google
@@ -113,10 +123,12 @@ function eachRestaurants() {
 function getRestaurants() {
     service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
-        location: current_loc,
+        location: curr_location,
         radius: 4000,
         type: ['restaurant'],
     }, function callback(results, status) {
+        console.log(results);
+        console.log(curr_location);
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             google_restaurants = results;
             total_restaurants += results.length; // total places fetched
@@ -132,6 +144,7 @@ function getRestaurants() {
 
 // create markers
 function createMarker(place) {
+    console.log(place);
     // restaurant icons
     var icon = {
         url: place.icon,
@@ -325,7 +338,7 @@ function renderCircle() {
 function setDestination(destination) {
     var request = {
         destination: destination,
-        origin: current_loc,
+        origin: curr_location,
         travelMode: 'DRIVING'
     };
 
@@ -350,9 +363,9 @@ function setDestination(destination) {
 }
 
 function renderTotals() {
-    document.getElementById('total_restaurants').innerHTML = total_restaurants; // total restaurants fetched
-    document.getElementById('total_customers').innerHTML = addCommas(total_customers); // total customers fetched
-    document.getElementById('total_sales').innerHTML = 'P' + addCommas(total_sales.toFixed(2)); // total sales fetched
+    // document.getElementById('total_restaurants').innerHTML = total_restaurants; // total restaurants fetched
+    // document.getElementById('total_customers').innerHTML = addCommas(total_customers); // total customers fetched
+    // document.getElementById('total_sales').innerHTML = 'P' + addCommas(total_sales.toFixed(2)); // total sales fetched
 }
 
 function addCommas(num) {
@@ -384,18 +397,18 @@ function clearMarkers() {
 
 // reset map
 function clearOverlays() {
-    document.getElementById('total_restaurants').innerHTML = ''; // clear total restaurants
-    document.getElementById('total_customers').innerHTML = ''; // clear total customers
-    document.getElementById('total_sales').innerHTML = ''; // clear total sales
-    document.getElementById('restaurants_list').innerHTML = ''; // clear restaurants list
-    document.getElementById('routes').innerHTML = 'No direction selected.'; // clear direction routes
+    // document.getElementById('total_restaurants').innerHTML = ''; // clear total restaurants
+    // document.getElementById('total_customers').innerHTML = ''; // clear total customers
+    // document.getElementById('total_sales').innerHTML = ''; // clear total sales
+    // document.getElementById('restaurants_list').innerHTML = ''; // clear restaurants list
+    // document.getElementById('routes').innerHTML = 'No direction selected.'; // clear direction routes
 
     total_customers = 0; // reset total customers
     total_sales = 0; // reset total customers
 
     clearMarkers(); // clear markers
 
-    infowindow.close(); // close info window
+    //infowindow.close(); // close info window
 
     // reset directions renderer
     directionsDisplay.setMap(null);
