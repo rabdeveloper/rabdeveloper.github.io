@@ -1,49 +1,59 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
 
-.m0 { margin: 0; }
-.p0 { padding: 0; }
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Google Map Restaurants</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
 
-#panel {
-    background-color: white;
-    border-radius: 2px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
-    font-size: 10px;
-    left: 0;
-    position: absolute;
-    top: 50px;
-    z-index: 1000;
-}
-#map {
-    height: 100%;
-    width: 100%;
-}
-#report {
-    background-color: rgb(255, 255, 255);
-    border-radius: 2px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
-    display: none;
-    position: absolute;
-    right: 50px;
-    top: 10px;
-}
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
 
-.section-head {
-    background-color: #EA4335;
-    color: white;
-    padding: 5px;
-}
-.section-cont {
-    padding: 5px 5px 10px 5px;
-}
-.overflow-cont {
-    height: 100px;
-    overflow-y: scroll;
-}
-.get-direction, a:-webkit-any-link {
-    color: #427fed;
-    text-decoration: none !important;
-}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    </head>
+    <body>
+        <div id="panel">
+            <div class="section-head">
+                <strong>RESTAURANT TYPE</strong>
+            </div>
+            <div class="section-cont">
+                <strong>Select restaurant type:</strong>
+                <select id="types">
+                    <option value="">All</option>
+                    <option value="fast food">Fast Food</option>
+                    <option value="family style">Family Style</option>
+                    <option value="casual dining">Casual Dining</option>
+                    <option value="coffeehouse">Coffeehouse</option>
+                    <option value="bakeshop">Bakeshop</option>
+                </select>
+            </div>
+            <div class="section-head">
+                <strong>AREA SUMMARY</strong>
+            </div>
+            <div class="section-cont">
+                <p>
+                    <strong>TOTAL RESTAURANTS:</strong> <span id="total_restaurants"></span><br>
+                    <strong>TOTAL CUSTOMERS:</strong> <span id="total_customers"></span><br>
+                    <strong>TOTAL SALES:</strong> <span id="total_sales"></span>
+                </p>
+                <p class="overflow-cont">
+                    <strong>Restaurants:</strong><br><span id="restaurants_list"></span>
+                </p>
+            </div>
+            <div class="section-head">
+                <strong>DIRECTION ROUTES</strong>
+            </div>
+            <div class="section-cont">
+                <p id="routes" class="overflow-cont m0">No direction selected.</p>
+            </div>
+        </div>
+        <div id="map"></div>
+        <div id="report"></div>
+
+        <script src="scripts.js?v=3"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB54mz_LLvYXD-CrHfSiNS4OX1k6sxgN5E&callback=initMap&libraries=places,visualization,drawing"
+          async defer></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    </body>
+</html>
