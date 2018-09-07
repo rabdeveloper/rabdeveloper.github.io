@@ -1,91 +1,59 @@
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map"></div>
-    <script>
+    <head>
+        <title>Google Map Restaurants</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
 
-      function initMap() {
-        //get cebu location
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 10.1976684, lng: 123.5990544},
-          zoom: 9
-        });
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    </head>
+    <body>
+        <div id="panel">
+            <div class="section-head">
+                <strong>RESTAURANT TYPE</strong>
+            </div>
+            <div class="section-cont">
+                <strong>Select restaurant type:</strong>
+                <select id="types">
+                    <option value="">All</option>
+                    <option value="fast food">Fast Food</option>
+                    <option value="family style">Family Style</option>
+                    <option value="casual dining">Casual Dining</option>
+                    <option value="coffeehouse">Coffeehouse</option>
+                    <option value="bakeshop">Bakeshop</option>
+                </select>
+            </div>
+            <div class="section-head">
+                <strong>AREA SUMMARY</strong>
+            </div>
+            <div class="section-cont">
+                <p>
+                    <strong>TOTAL RESTAURANTS:</strong> <span id="total_restaurants"></span><br>
+                    <strong>TOTAL CUSTOMERS:</strong> <span id="total_customers"></span><br>
+                    <strong>TOTAL SALES:</strong> <span id="total_sales"></span>
+                </p>
+                <p class="overflow-cont">
+                    <strong>Restaurants:</strong><br><span id="restaurants_list"></span>
+                </p>
+            </div>
+            <div class="section-head">
+                <strong>DIRECTION ROUTES</strong>
+            </div>
+            <div class="section-cont">
+                <p id="routes" class="overflow-cont m0">No direction selected.</p>
+            </div>
+        </div>
+        <div id="map"></div>
+        <div id="report"></div>
 
-        var infoWindow = new google.maps.InfoWindow;
-        // Change this depending on the name of your PHP or XML file
-        downloadUrl('json/restaurant.json', function(data) {
-        console.log(data);
-
-        Array.prototype.forEach.call(data, function(markerElem) {
-            var id = markerElem.getAttribute('id');
-            var name = markerElem.getAttribute('name');
-            var address = markerElem.getAttribute('address');
-            var type = markerElem.getAttribute('type');
-            var point = new google.maps.LatLng(
-                parseFloat(markerElem.getAttribute('lat')),
-                parseFloat(markerElem.getAttribute('lng')));
-
-            var infowincontent = document.createElement('div');
-            var strong = document.createElement('strong');
-            strong.textContent = name
-            infowincontent.appendChild(strong);
-            infowincontent.appendChild(document.createElement('br'));
-
-            var text = document.createElement('text');
-            text.textContent = address
-            infowincontent.appendChild(text);
-            var icon = customLabel[type] || {};
-            var marker = new google.maps.Marker({
-              map: map,
-              position: point,
-              label: icon.label
-            });
-            marker.addListener('click', function() {
-              infoWindow.setContent(infowincontent);
-              infoWindow.open(map, marker);
-            });
-          });
-        });
-      }
-
-      function downloadUrl(url, callback) {
-        var request = window.ActiveXObject ?
-            new ActiveXObject('Microsoft.XMLHTTP') :
-            new XMLHttpRequest;
-
-        request.onreadystatechange = function() {
-          if (request.readyState == 4) {
-            request.onreadystatechange = doNothing;
-            callback(request, request.status);
-          }
-        };
-
-        request.open('GET', url, true);
-        request.send(null);
-      }
-
-      function doNothing() {}
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCU_0bCOtebzXgrdet6C0h5WJRPIOFtJZs&callback=initMap"
-    async defer></script>
-  </body>
+        <script src="js/scripts.js?v=3"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB54mz_LLvYXD-CrHfSiNS4OX1k6sxgN5E&callback=initMap&libraries=places,visualization,drawing"
+          async defer></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    </body>
 </html>
