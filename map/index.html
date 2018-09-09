@@ -6,39 +6,49 @@
         <meta charset="utf-8">
 
         <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!------ Include the above in your HEAD tag ---------->
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     </head>
     <body>
-        <div id="panel">
-            <div class="section-head">
-                <strong>RESTAURANT TYPE</strong>
-            </div>
-            <div class="section-cont">
-                <strong>Select restaurant type:</strong>
-                <select id="types">
-                    <option value="">All</option>
-                    <option value="fast food">Fine Dining</option>
-                    <option value="family style">Moderately Priced</option>
-                    <option value="casual dining">Local Cuisine</option>
-                    <option value="coffeehouse">Cheap Eats</option>
-                    <option value="bakeshop">Coffee & Tea</option>
-                </select>
+        <div class="container">
+        <div id="panel" class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <strong>RESTAURANT LIST</strong>
+                </div>
+                <div class="section">
+                    <strong>Select type:</strong>
+                    <select id="types" class="form-control">
+                        <option value="">All</option>
+                        <option value="fast food">Fine Dining</option>
+                        <option value="family style">Moderately Priced</option>
+                        <option value="casual dining">Local Cuisine</option>
+                        <option value="coffeehouse">Cheap Eats</option>
+                        <option value="bakeshop">Coffee & Tea</option>
+                    </select>
+                </div>
             </div>
 
-            <p class="overflow-cont">
+            <div class="panel-body">
+            <p class="restaurant-cont">
                 <strong>Restaurants:</strong><br><span id="restaurants_list"></span>
             </p>
+          
+            </div>
 
         </div>
         <div id="map"></div>
         <div id="report"></div>
 
-        <script src="js/script.js?v=3"></script>
+        </div>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCU_0bCOtebzXgrdet6C0h5WJRPIOFtJZs&callback=initMap&libraries=places,visualization,drawing"
           async defer></script>
         <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="js/script.js?v=12312312321"></script>
     </body>
 </html>
