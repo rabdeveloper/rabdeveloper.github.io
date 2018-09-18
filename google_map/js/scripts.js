@@ -86,6 +86,7 @@ function enterCurrentLocation() {
       location: place.geometry.location
     });
 
+    console.log(place);
     marker.setVisible(true);
 
     infowindowContent.children['place-name'].textContent = place.name;
