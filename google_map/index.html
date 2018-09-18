@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Google Map Restaurants</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    </head>
+    <body>
+        <div id="panel" class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <strong>RESTAURANT LIST</strong>
+                </div>
+                <div class="section">
+                    <strong>Select type:</strong>
+                    <select id="types" class="form-control" style="height: auto !important;">
+                        <option value="">All</option>
+                        <option value="Fastfood">Fastfood</option>
+                        <option value="desserts">Desserts</option>
+                        <option value="beverage">Beverage</option>
+                        <option value="casual dining">Casual Dining</option>
+                        <option value="fine dining">Fine Dining</option>
+                        <option value="Hotel Restaurant">Hotel Restaurant</option>
+                        <option value="buffet">Buffet</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <p>
+                        <strong>TOTAL RESTAURANTS:</strong> <span id="total_restaurants"></span><br>
+                        <strong>TOTAL CUSTOMERS:</strong> <span id="total_customers"></span><br>
+                        <strong>TOTAL SALES:</strong> <span id="total_sales"></span>
+                    </p>
+                <p class="restaurant-cont">
+                    <strong>Restaurants:</strong><br><span id="restaurants_list"></span>
+                     <button id="more" class="btn btn-primary btn-small" style="display: none;">More results</button>
+                </p>
+
+
+            </div>
+
+
+
+        </div>
+        <div id="map"></div>
+        <div id="report"></div>
+
+        <script src="js/scripts.js?v=3"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzspzkFOdtlQBN_yqcVWSedAtC04zN9gk&callback=initMap&libraries=places,visualization,drawing"
+          async defer></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    </body>
+</html>
