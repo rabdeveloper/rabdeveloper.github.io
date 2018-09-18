@@ -20,7 +20,9 @@ function initMap() {
         zoom: 11
     });
 
-    getCurrentLocation(); // get user location
+    //getCurrentLocation(); // get user location
+
+    enterCurrentLocation();
 
     // get restaurants from json file
     getRestaurantJson();
@@ -43,12 +45,63 @@ function initMap() {
     });
 }
 
+function enterCurrentLocation() {
+
+  var input = document.getElementById('pac-input');
+
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.bindTo('bounds', map);
+
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  var infowindow = new google.maps.InfoWindow();
+  var infowindowContent = document.getElementById('infowindow-content');
+  infowindow.setContent(infowindowContent);
+  var marker = new google.maps.Marker({
+    map: map
+  });
+  marker.addListener('click', function() {
+    infowindow.open(map, marker);
+  });
+
+  autocomplete.addListener('place_changed', function() {
+    infowindow.close();
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      return;
+    }
+
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);
+    }
+
+    current_loc = place.geometry.location;
+
+    // Set the position of the marker using the place ID and location.
+    marker.setPlace({
+      placeId: place.place_id,
+      location: place.geometry.location
+    });
+
+    marker.setVisible(true);
+
+    infowindowContent.children['place-name'].textContent = place.name;
+    infowindowContent.children['place-id'].textContent = place.place_id;
+    infowindowContent.children['place-address'].textContent = place.formatted_address;
+    infowindow.open(map, marker);
+  });
+
+}
 
 
 // get user's current location
 function getCurrentLocation() {
     current_loc = new google.maps.LatLng(10.2943,123.9004); // Magellan's Cross
 
+    console.log(current_loc);
     // mark Magellan's Cross location
     navig_marker = new google.maps.Marker({
         map: map,
@@ -128,6 +181,8 @@ function getRestaurantJson() {
     getPlaces();
 
 }
+
+
 
 // go through each restaurants from google
 function perRestaurants() {
@@ -235,7 +290,12 @@ function createMarker(place) {
 
     // on click get direction
     $(document).off('click', '#get-direction-' + place.id).on('click', '#get-direction-' + place.id, function() {
-        setDestination(place.geometry.location);
+        if(document.getElementById('pac-input').value == '') {
+            document.getElementById("pac-input").focus();
+        } else {
+            setDestination(place.geometry.location);
+        }
+
     });
 
     // on click get report
